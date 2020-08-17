@@ -21,9 +21,8 @@ class ActorCritic(nn.Module):
         self.actor_lin2 = nn.Linear(hidden, num_acts)
         
     def forward(self, state):
-        state = torch.from_numpy(state).detach()
         val = F.relu(self.critic_lin1(state))
-        val = F.relu(val)
+        val = self.critic_lin2(val)
 
         policy_dist = F.relu(self.actor_lin1(state))
         policy_dist = F.softmax(self.actor_lin2(policy_dist))
